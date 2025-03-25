@@ -113,7 +113,6 @@ INSERT INTO alunos (id, nome) VALUE (2, "Isabela da Silva");
 ALTER TABLE alunos ADD COLUMN CPF CHAR(14);
 
 DESCRIBE alunos;
-SELECT id, nome, cpf, nota1, nota2, nota3 FROM alunos;
 
 -- Definir o cpf '123.456.780-10' para a aluna Isabela (comando de update)
 UPDATE alunos SET cpf = "123.456.780-10" WHERE id = 2;
@@ -126,13 +125,12 @@ UPDATE alunos SET cpf = "123.567.503-10" WHERE id = 1;
 ALTER TABLE alunos ADD COLUMN nota1 DOUBLE;
 ALTER TABLE alunos ADD COLUMN nota2 DOUBLE;
 ALTER TABLE alunos ADD COLUMN nota3 DOUBLE;
+SELECT id, nome, cpf, nota1, nota2, nota3 FROM alunos;
 
 DESCRIBE cursos;
 SELECT id, nome, cpf, nota1, nota2, nota3 FROM alunos;
 
-ALTER TABLE cursos DROP COLUMN nota1;
-ALTER TABLE cursos DROP COLUMN nota2;
-ALTER TABLE cursos DROP COLUMN nota3;
+
 
 -- Definir a nota1 para 7.5, nota 2 para 8.0 e nota 3 para 9.95 para o aluno Matheus
 UPDATE alunos SET nota1 = "7.5" WHERE id = 1;   -- matheus
@@ -140,7 +138,6 @@ UPDATE alunos SET nota2 = "8.0" WHERE id = 1;   -- matheus
 UPDATE alunos SET nota3 = "9.95" WHERE id = 1;  -- matheus
 
 DESCRIBE alunos;
-SELECT id, nome, cpf, nota1, nota2, nota3, data_nascimento FROM alunos;
 
 -- Definir a nota1 para 4.3, nota 2 para 1.0 e nota 3 para 0 para a aluna Isabela
 UPDATE alunos SET nota1 = "4.3" WHERE id = 2;   -- Isabela
@@ -149,6 +146,7 @@ UPDATE alunos SET nota3 = "0" WHERE id = 2;  -- isabela
 
 -- Adicionar a coluna de data de nascimento DATE
 ALTER TABLE alunos ADD COLUMN data_nascimento DATE;
+SELECT id, nome, cpf, nota1, nota2, nota3, data_nascimento FROM alunos;
 -- Criar um aluna chamada 'Silvana da Souza Sena', com notas 6.5, 6.1 e 7.0 com id 3
 INSERT INTO alunos (id, nome, nota1, nota2, nota3, data_nascimento) VALUE (3, "Silvana da Souza Sena", "6.5","6.1","7.0", "1971-02-28");
 
@@ -352,22 +350,82 @@ SELECT * FROM alunos;
 -- consultar
 
 -- consultar AND
+SELECT 
+	nome,
+    MONTH(data_nascimento)
+    FROM alunos
+    WHERE MONTH(data_nascimento) >= 1 AND MONTH(data_nascimento) <= 6
+    ORDER BY MONTH(data_nascimento) ASC;
+    
 
--- consultar OR
+SELECT
+	nome, 
+    nota1, 
+    nota2, 
+    nota3, 
+    FORMAT((nota1 + nota2 + nota3) / 3, 2) AS 'Média'
+    FROM alunos
+    WHERE nota1 < 7 AND nota2 < 7 AND nota3 < 7;
+
+
+ -- consultar OR
+SELECT 
+	disciplinas, nome 
+    FROM alunos
+    WHERE 
+    disciplinas = "Eduacação Física" OR
+    disciplinas = "Português" OR
+    disciplinas = "Arte" 
+    ORDER BY disciplinas ASC, Nome ASC;
+    
+
+
 
 -- consultar nome exato
 
+select nome from alunos where nome = "silva%";   
+   
 -- consultar nome comeca com
 
+select nome from alunos where nome like "silva%";  
 -- consultar nome termina com 
-
+select nome from alunos where nome like "%silva";  
 -- consultar nome contém em qualquer parte
-
+select nome from alunos where nome like "%silva%";  
 -- consultar a data de  nascimento formatada
+select nome, date_format(data_nascimento, "%d/%m/%Y") from alunos; 
+
+
+-- consultar os alunos limitando a quantidade
+select id, nome from alunos limit 15;
+
 
 -- consultar os alunos apresentando a primeira página
+select id, nome from alunos limit 0,15;
+
 
 -- consultar os alunos apresentando a segunda página
+select id, nome from alunos limit 15,15;
+-- consultar os alunos apresentando a terceira página
+select id, nome from alunos limit 30,15;
+-- consultar os alunos apresentando a quarta página
+select id, nome from alunos limit 45,15;
 
+drop table if exists formacoes;
+-- primary_key (PK): Chave primária é um identificador único dos registros dessa tabela
+-- auto increment: gera o id automaticamente
+-- not null: faz com que a coluna sjea obrigatória
+-- unique: fz com que tenha somente um registro com aquela coluna
+create table formacoes(
+	id int primary key auto_increment,
+	nome varchar(100) not null unique
+);
 
+insert into formacoes (nome) values ("superDev");
+insert into formacoes (nome) values ("Adas");
 
+-- insert abaixo não funciona pois já temos uma fomração com o nome ADAS
+-- o insert into formacoes (nome) values ("ADAS");
+-- o insert abaixo não funciona pois o nome não pode ser nulo
+-- insert into fomrmacoes (nome) values (null)
+select id, nome from formacoes;
