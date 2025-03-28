@@ -11,8 +11,8 @@ SHOW SCHEMAS;
 
 -- Criar uma tabela chamada curso
 CREATE TABLE curso (
-	id INT, -- Coluna do tipo inteiro
-    nome VARCHAR(45) -- Coluna do tipo texto que permite armazenar até 45 caracteres
+id INT, -- Coluna do tipo inteiro
+nome VARCHAR(45) -- Coluna do tipo texto que permite armazenar até 45 caracteres
 );
 
 -- Consultar os registros da tabela curso
@@ -82,16 +82,16 @@ UPDATE cursos SET link = 'https://www.proway.com.br/curso/fundamentos-em-css' WH
 
 -- Definir a duração, link do curso Python Fundamentos
 UPDATE cursos SET 
-	duracao = '20:00', 
-    link = 'https://www.proway.com.br/curso/python-fundamentos'
-    WHERE id = 2;
+duracao = '20:00', 
+link = 'https://www.proway.com.br/curso/python-fundamentos'
+WHERE id = 2;
 
 -- Consultar os cursos que não tem definido o link
 SELECT id, nome, link FROM cursos WHERE link IS NULL;
 
 CREATE TABLE alunos (
-	id INT, -- Coluna do tipo inteiro
-    nome VARCHAR(50) -- Coluna do tipo texto que permite armazenar até 45 caracteres
+id INT, -- Coluna do tipo inteiro
+nome VARCHAR(50) -- Coluna do tipo texto que permite armazenar até 45 caracteres
 );
 
 
@@ -156,13 +156,13 @@ INSERT INTO alunos (id, nome, cpf, nota1, nota2, nota3, data_nascimento) VALUE (
 
 
 CREATE TABLE professores (
-	id INTEGER, -- Coluna do tipo inteiro
-    nome VARCHAR(60), -- Coluna do tipo texto que permite armazenar até 60 caracteres
-    cpf CHAR(14),
-    salario DOUBLE,
-    data_admissao DATE,
-    disciplina VARCHAR(50)
-    
+id INTEGER, -- Coluna do tipo inteiro
+nome VARCHAR(60), -- Coluna do tipo texto que permite armazenar até 60 caracteres
+cpf CHAR(14),
+salario DOUBLE,
+data_admissao DATE,
+disciplina VARCHAR(50)
+
 );
 SELECT id, nome, cpf, salario, data_admissao, disciplina FROM professores;
 
@@ -196,11 +196,11 @@ SELECT nome, DAY(data_nascimento) FROM alunos;
 
 -- consultar média do aluno
 SELECT	
-	id as "Código",
-    nome as "aluno",
-    (nota1 + nota2 + nota3) / 3 as "Média"
-    FROM alunos;
-    
+id as "Código",
+nome as "aluno",
+(nota1 + nota2 + nota3) / 3 as "Média"
+FROM alunos;
+
 -- ordenar os registros por nome em órdem crescente
 SELECT id, nome FROM alunos ORDER BY nome ASC; # ascedente 
 -- ordenar  os registros por nome em órdem decescente 
@@ -304,25 +304,25 @@ SELECT id, disciplinas, nome FROM alunos ORDER BY disciplinas ASC, nome ASC;
 -- consultando os alunos da disciplinas Física ordenados por nome
 
 SELECT 
-	nome
-	FROM alunos
-    WHERE disciplinas = "Física"
-    ORDER BY nome ASC;
-    
-    
+nome
+FROM alunos
+WHERE disciplinas = "Física"
+ORDER BY nome ASC;
+
+
 -- consultar a quantidade de alunos da disciplina Física 
 
 SELECT 
-	COUNT(nome)    
-	FROM alunos
-    WHERE disciplinas = "Física";
-    
+COUNT(nome)    
+FROM alunos
+WHERE disciplinas = "Física";
+
 -- consultar o nome e quantidade de caracteres do nome
 SELECT
-	nome,
-    LENGTH(nome)
-    FROM alunos
-    ORDER BY LENGTH(nome) DESC;
+nome,
+LENGTH(nome)
+FROM alunos
+ORDER BY LENGTH(nome) DESC;
 
 -- consultar o nome em caixa alta
 SELECT UPPER(nome) FROM alunos;
@@ -335,56 +335,56 @@ SELECT CONCAT(nome, " -> ", disciplinas) FROM alunos;
 -- consultar no seguinte formato: aluno nasceu em dia de mês de ano
 
 SELECT CONCAT(
-	nome,
-    " nasceu no dia ",
-    DAY(data_nascimento),
-    " do mês ",
-    MONTH(data_nascimento),
-    " do ano de ",
-    YEAR(data_nascimento),
-    "."
-    ) AS "Mensagem"
- FROM alunos;    
-    
+nome,
+" nasceu no dia ",
+DAY(data_nascimento),
+" do mês ",
+MONTH(data_nascimento),
+" do ano de ",
+YEAR(data_nascimento),
+"."
+) AS "Mensagem"
+FROM alunos;    
+
 SELECT * FROM alunos;
 -- consultar
 
 -- consultar AND
 SELECT 
-	nome,
-    MONTH(data_nascimento)
-    FROM alunos
-    WHERE MONTH(data_nascimento) >= 1 AND MONTH(data_nascimento) <= 6
-    ORDER BY MONTH(data_nascimento) ASC;
-    
+nome,
+MONTH(data_nascimento)
+FROM alunos
+WHERE MONTH(data_nascimento) >= 1 AND MONTH(data_nascimento) <= 6
+ORDER BY MONTH(data_nascimento) ASC;
+
 
 SELECT
-	nome, 
-    nota1, 
-    nota2, 
-    nota3, 
-    FORMAT((nota1 + nota2 + nota3) / 3, 2) AS 'Média'
-    FROM alunos
-    WHERE nota1 < 7 AND nota2 < 7 AND nota3 < 7;
+nome, 
+nota1, 
+nota2, 
+nota3, 
+FORMAT((nota1 + nota2 + nota3) / 3, 2) AS 'Média'
+FROM alunos
+WHERE nota1 < 7 AND nota2 < 7 AND nota3 < 7;
 
 
- -- consultar OR
+-- consultar OR
 SELECT 
-	disciplinas, nome 
-    FROM alunos
-    WHERE 
-    disciplinas = "Eduacação Física" OR
-    disciplinas = "Português" OR
-    disciplinas = "Arte" 
-    ORDER BY disciplinas ASC, Nome ASC;
-    
+disciplinas, nome 
+FROM alunos
+WHERE 
+disciplinas = "Eduacação Física" OR
+disciplinas = "Português" OR
+disciplinas = "Arte" 
+ORDER BY disciplinas ASC, Nome ASC;
+
 
 
 
 -- consultar nome exato
 
 select nome from alunos where nome = "silva%";   
-   
+
 -- consultar nome comeca com
 
 select nome from alunos where nome like "silva%";  
@@ -417,8 +417,8 @@ drop table if exists formacoes;
 -- not null: faz com que a coluna sjea obrigatória
 -- unique: fz com que tenha somente um registro com aquela coluna
 create table formacoes(
-	id int primary key auto_increment,
-	nome varchar(100) not null unique
+id int primary key auto_increment,
+nome varchar(100) not null unique
 );
 
 insert into formacoes (nome) values ("superDev");
