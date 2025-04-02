@@ -81,8 +81,49 @@ select * from vw_livros_fantasia;
 
 -- Criar uma view vw_livros_autor_tolkien (listar nome do livro, nome do autor) filtrar autor 'J.R.R. Tolkien'
 
+create or replace view vw_livros_autor_tolkien as 
+select
+livros.nome as "livro",
+autores.nome as "autor"
+from livros
+inner join autores on (livros.id_autor = autores.id)
+where autores.nome like '%J.R.R%';
+
+select * from vw_livros_autor_tolkien;
 
 -- Criar uma view vw_livros_por_categoria (listar nome da categoria, quantidade livros) group by necessário
-
+create or replace view vw_livros_por_categoria as 
+select
+categorias.nome as "Categoria",
+-- livros.id as "Quantidade"
+count(livros.nome) as "Quantidade"
+from livros
+inner join categorias on (livros.id_categoria = categorias.id)
+group by categorias.id;
+select * from vw_livros_por_categoria;
 
 -- Criar uma view vw_paginas_por_autor (listar nome do autor, soma da quantidade de páginas) group by necessário
+create or replace view vw_paginas_por_autor as
+select 
+autores.nome as "Autor",
+-- livros.quantidade_paginas as "Quantidade de páginas"
+sum(livros.quantidade_paginas) as "Quantidade de páginas"
+from livros
+inner join autores on (livros.id_autor = autores.id)
+group by autores.id;
+-- group by "Quantidade de páginas";
+-- group by livros;
+-- group by livros.quantidade_paginas;
+-- group by livros;
+-- group by autores.nome;
+
+
+select * from vw_paginas_por_autor;
+
+
+
+
+
+
+
+
